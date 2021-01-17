@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option go_package = ".;protobuf";
+
+service Chat {
+// Register New User
+rpc Register(User) returns (UserId) {}
+// Subscribe for Messages
+rpc Subscribe(UserId) returns (stream Message) {}
+// Send message
+rpc Send(Message) returns (NoResponse) {}
+// Quit for graceful exit
+rpc Quit(UserId) returns (NoResponse) {}
+}
+
+// User identifies user with username
+message User {
+  string name = 1;
+}
+
+// UserId identifies user with unique ID
+message UserId {
+  uint64 id = 1;
+}
+
+// Message
+message Message {
+  UserId uID = 1;
+  User   user = 2;
+  string msg = 3;
+  string timestamp = 4;
+}
+
+message NoResponse{
+}
